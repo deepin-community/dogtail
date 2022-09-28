@@ -1,0 +1,47 @@
+Source: dogtail
+Section: python
+Priority: optional
+Maintainer: Samuel Thibault <sthibault@debian.org>
+Build-Depends:
+ debhelper-compat (= 12),
+ dh-python,
+ python3-all,
+ python3-pyatspi,
+ python3-setuptools,
+ python3-nose2 <!nocheck>,
+ gtk-3-examples <!nocheck>,
+ gedit <!nocheck>,
+ imagemagick <!nocheck>,
+ gnome-screenshot <!nocheck>,
+ psmisc <!nocheck>,
+ at-spi2-core <!nocheck>,
+ dbus <!nocheck>,
+ xauth <!nocheck>,
+ xvfb <!nocheck>
+Rules-Requires-Root: no
+Vcs-Browser: https://salsa.debian.org/Debian/dogtail
+Vcs-Git: https://salsa.debian.org/Debian/dogtail.git
+Homepage: https://gitlab.com/dogtail/dogtail
+Standards-Version: 4.5.0
+
+Package: python3-dogtail
+Architecture: all
+Depends:
+ at-spi2-core,
+ gir1.2-gtk-3.0,
+ python3-apt (>= 0.7.93),
+ python3-gi,
+ python3-gi-cairo,
+ python3-pyatspi,
+ xvfb,
+ ${misc:Depends},
+ ${python3:Depends},
+ ${shlibs:Depends}
+Breaks: python-dogtail
+Replaces: python-dogtail
+Recommends:
+ imagemagick,
+Description: GUI test tool and automation framework
+ dogtail is a GUI test tool and automation framework written in Python.
+ It uses Accessibility (a11y) technologies to communicate with desktop
+ applications. dogtail scripts are written in Python.

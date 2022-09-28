@@ -1,0 +1,18 @@
+Description: fix python3 issue for python2 Debian package
+
+Until we've dogtail + python-dogtail + python3-dogtail
+packages the python-dogtail package just ships python2
+support.
+
+Forwarded: not-needed
+Origin: vendor
+Author: Michael Prokop <mika@debian.org>
+
+--- a/examples/appstartup.py
++++ b/examples/appstartup.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python3
++#!/usr/bin/env python
+ 
+ import os
+ import signal

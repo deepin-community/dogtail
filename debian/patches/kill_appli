@@ -1,0 +1,26 @@
+https://gitlab.com/dogtail/dogtail/merge_requests/15
+
+diff --git a/tests/gtkdemotest.py b/tests/gtkdemotest.py
+index 5ebb2a3..4572887 100644
+--- a/tests/gtkdemotest.py
++++ b/tests/gtkdemotest.py
+@@ -23,6 +23,7 @@ class GtkDemoTest(unittest.TestCase):
+         import time
+         os.kill(self.pid, signal.SIGKILL)
+         os.system('killall gtk3-demo-application > /dev/null 2>&1')
++        os.system('killall gtk3-demo-appli > /dev/null 2>&1')
+         # Sleep just enough to let the app actually die.
+         # AT-SPI doesn't like being hammered too fast.
+         time.sleep(0.5)
+diff --git a/tests/test_utils.py b/tests/test_utils.py
+index 8838d43..74d3577 100644
+--- a/tests/test_utils.py
++++ b/tests/test_utils.py
+@@ -74,6 +74,7 @@ class TestRun(unittest.TestCase):
+         if self.pid:
+             os.kill(self.pid, signal.SIGKILL)
+         os.system('killall gtk3-demo-application > /dev/null 2>&1')
++        os.system('killall gtk3-demo-appli > /dev/null 2>&1')
+         # Sleep just enough to let the app actually die.
+         # AT-SPI doesn't like being hammered too fast.
+         time.sleep(0.5)

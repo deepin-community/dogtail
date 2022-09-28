@@ -1,0 +1,10 @@
+Tests: tests
+Depends: python3-dogtail,
+         python3-nose,
+         gtk-3-examples,
+         gedit,
+         imagemagick,
+         gnome-screenshot,
+         psmisc,
+         at-spi2-core, dbus, xauth, xvfb
+Restrictions: allow-stderr

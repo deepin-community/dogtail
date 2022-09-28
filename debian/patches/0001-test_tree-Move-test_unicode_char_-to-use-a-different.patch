@@ -1,0 +1,52 @@
+From 9e0c7c35d88e18b042735f2d3be831da77021df8 Mon Sep 17 00:00:00 2001
+From: Iain Lane <iain@orangesquash.org.uk>
+Date: Fri, 28 Feb 2020 12:34:45 +0000
+Subject: [PATCH] test_tree: Move test_unicode_char_* to use a different UI
+ element
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+In gedit 3.35, the "Open" button was re-designed to no longer have the
+"Other Documents…" button inside it.
+
+Move to testing the (hamburger) menu button instead, as it has an item
+"Find and Replace…" which we can look for instead. This works on
+pre-3.35 gedit too.
+
+Forwarded: https://gitlab.com/dogtail/dogtail/-/merge_requests/19
+---
+ tests/test_tree.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/tests/test_tree.py b/tests/test_tree.py
+index 46f276c..8646380 100644
+--- a/tests/test_tree.py
++++ b/tests/test_tree.py
+@@ -875,18 +875,18 @@ class TestUnicodeNames(unittest.TestCase):
+         self.app = dogtail.tree.root.application('gedit')
+ 
+     def test_unicode_char_in_name(self):
+-        self.app.child('Open', roleName='toggle button').click()
++        self.app.child('Menu', roleName='toggle button').click()
+         unicode_button = None
+-        unicode_button = self.app.child(name=u'Other Documents…', roleName='push button')
++        unicode_button = self.app.child(name=u'Find and Replace…', roleName='push button')
+         assert unicode_button is not None
+ 
+     def test_unicode_char_in_name_click(self):
+-        self.app.child('Open', roleName='toggle button').click()
+-        unicode_button = self.app.child(name=u'Other Documents…', roleName='push button')
++        self.app.child('Menu', roleName='toggle button').click()
++        unicode_button = self.app.child(name=u'Find and Replace…', roleName='push button')
+         unicode_button.click()
+         dialog = None
+         try:
+-            dialog = self.app.child(name=u'Open', roleName='file chooser')
++            dialog = self.app.child(name=u'Find and Replace', roleName='dialog')
+         except dogtail.tree.SearchError:
+             self.fail()
+         assert dialog is not None
+-- 
+2.20.1
+

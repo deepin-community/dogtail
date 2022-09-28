@@ -1,0 +1,23 @@
+Description: Comparison with is will always fail, use == instead
+ Allows the script to be started as /bin/sniff, while the icon
+ is located under /usr/share/.
+Author: Juhani Numminen <juhaninumminen0@gmail.com>
+Bug-Debian: https://bugs.debian.org/860523
+Forwarded: no
+Last-Update: 2018-09-03
+
+---
+ sniff/sniff |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/sniff/sniff
++++ b/sniff/sniff
+@@ -60,7 +60,7 @@ class SniffApp(object):
+             import os
+             path = os.path.abspath(
+                 os.path.join(__file__, os.path.pardir, os.path.pardir))
+-            if path is '/':
++            if path == '/':
+                 path = '/usr'
+             try:
+                 self.app.set_icon_from_file(os.path.join(path, 'share/icons/hicolor/scalable/apps/dogtail-head.svg'))

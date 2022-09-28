@@ -1,0 +1,21 @@
+Description: Fix desktop file as per spec.
+Author: Alessio Treglia <alessio@debian.org>
+Forwarded: no
+---
+ sniff/sniff.desktop |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+--- dogtail.orig/sniff/sniff.desktop
++++ dogtail/sniff/sniff.desktop
+@@ -1,5 +1,4 @@
+ [Desktop Entry]
+-Encoding=UTF-8
+ Name=AT-SPI Browser
+ Name[en_CA]=AT-SPI Browser
+ Name[en_GB]=AT-SPI Browser
+@@ -11,4 +10,4 @@ Terminal=false
+ Type=Application
+ Icon=dogtail-head
+ StartupNotify=true
+-Categories=Application;Development;
++Categories=Development;

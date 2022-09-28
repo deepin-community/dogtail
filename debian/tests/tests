@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+WORKDIR=$AUTOPKGTEST_TMP
+SRCDIR=$PWD
+
+cp -a tests $WORKDIR/
+cd $WORKDIR
+
+GTK_MODULES=gail:atk-bridge LC_ALL=C xvfb-run -s -noreset -a dbus-run-session -- nosetests3 -v tests/

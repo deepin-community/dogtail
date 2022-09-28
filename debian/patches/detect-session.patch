@@ -1,0 +1,27 @@
+https://gitlab.com/dogtail/dogtail/issues/7
+
+---
+ scripts/dogtail-detect-session |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+--- a/scripts/dogtail-detect-session
++++ b/scripts/dogtail-detect-session
+@@ -43,7 +43,7 @@ def GNOME():
+         running = True
+         print("GNOME Session detected.")
+     except AttributeError or AssertionError or FocusError:
+-        print("ERROR: No session found.")
++        print("ERROR: No GNOME session found.")
+     return running
+ 
+ 
+@@ -59,8 +59,7 @@ def JustSomeApps():
+     """
+     "Is at least one accessibility-enabled application running?"
+     """
+-    assert focus.desktop
+-    assert focus.desktop.children
++    return focus.desktop and focus.desktop.children
+ 
+ if GNOME() or KDE() or JustSomeApps():
+     sys.exit()

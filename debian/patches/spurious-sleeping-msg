@@ -1,0 +1,26 @@
+---
+ dogtail/tree.py     |    2 +-
+ tests/test_utils.py |    1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+--- a/dogtail/tree.py
++++ b/dogtail/tree.py
+@@ -932,7 +932,7 @@ class Node(object):
+                 if not retry:
+                     break
+                 numAttempts += 1
+-                if config.debugSearching or config.debugSleep:
++                if config.debugSleep:
+                     logger.log("sleeping for %f" % config.searchBackoffDuration)
+                 sleep(config.searchBackoffDuration)
+         if requireResult:
+--- a/tests/test_utils.py
++++ b/tests/test_utils.py
+@@ -113,6 +113,7 @@ class TestDelay(unittest.TestCase):
+         output = trap_stdout(dogtail.utils.doDelay).split()
+         self.assertEqual(len(output), 3)
+         self.assertEqual(float(output[2]), 2.0)
++        dogtail.utils.config.debugSleep = False
+ 
+ 
+ class TestA11Y(unittest.TestCase):

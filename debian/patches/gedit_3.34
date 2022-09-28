@@ -1,0 +1,28 @@
+https://gitlab.com/dogtail/dogtail/merge_requests/18
+
+merged
+
+commit ae8e334ee5e01104460ef6bf6a3b90f4372f514b
+Author: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Date:   Fri Sep 13 19:42:01 2019 +0200
+
+    gedit test: fix gedit's application name
+    
+    It was renamed into org.gnome.gedit in gedit 3.34.
+
+Index: b/tests/test_tree.py
+===================================================================
+--- a/tests/test_tree.py
++++ b/tests/test_tree.py
+@@ -872,7 +872,10 @@
+         dogtail.config.config.searchCutoffCount = 3
+         import dogtail.utils
+         self.pid = dogtail.utils.run('gedit')
+-        self.app = dogtail.tree.root.application('gedit')
++        try:
++            self.app = dogtail.tree.root.application('org.gnome.gedit')
++        except:
++            self.app = dogtail.tree.root.application('gedit')
+ 
+     def test_unicode_char_in_name(self):
+         self.app.child('Menu', roleName='toggle button').click()

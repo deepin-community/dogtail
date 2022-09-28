@@ -1,0 +1,4 @@
+version=3
+opts=uversionmangle=s/_/./g \
+https://gitlab.com/dogtail/dogtail/-/tags \
+/dogtail/dogtail/.*/dogtail-DOGTAIL_([0-9_]*)@ARCHIVE_EXT@

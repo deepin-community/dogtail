@@ -1,0 +1,95 @@
+https://gitlab.com/dogtail/dogtail/merge_requests/13
+
+commit 27d45899641ecd91d16cc13f37fe536577a96c72
+Author: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Date:   Tue Mar 26 15:09:38 2019 +0100
+
+    Add search method through stable identifier names
+
+---
+ dogtail/predicate.py |   13 ++++++++++++-
+ dogtail/tree.py      |    8 ++++----
+ 2 files changed, 16 insertions(+), 5 deletions(-)
+
+--- a/dogtail/predicate.py
++++ b/dogtail/predicate.py
+@@ -142,7 +142,7 @@ class GenericPredicate(Predicate):
+     SubtreePredicate subclass that takes various optional search fields
+     """
+ 
+-    def __init__(self, name=None, roleName=None, description=None, label=None, debugName=None):
++    def __init__(self, name=None, roleName=None, description=None, label=None, identifier=None, debugName=None):
+         if name:
+             self.name = TranslatableString(name)
+         else:
+@@ -153,6 +153,7 @@ class GenericPredicate(Predicate):
+             self.label = TranslatableString(label)
+         else:
+             self.label = None
++        self.identifier = identifier
+ 
+         if debugName:
+             self.debugName = debugName
+@@ -194,6 +195,12 @@ class GenericPredicate(Predicate):
+                     if self.description:
+                         if self.description != node.description:
+                             return False
++                    if self.identifier:
++                        if ('id' not in node.get_attributes() or \
++                            self.identifier != node.get_attributes()['id']) and \
++                           ('accessibleId' not in dir(node) or \
++                            self.identifier != node.accessibleId):
++                            return False
+                 except GLib.GError as e:
+                     if re.match(r"name :[0-9]+\.[0-9]+ was not provided", e.message):
+                         logger.log("Dogtail: warning: omiting possibly broken at-spi application record")
+@@ -218,6 +225,8 @@ class GenericPredicate(Predicate):
+                 args += " roleName='%s'" % self.roleName
+             if self.description:
+                 args += " description='%s'" % self.description
++            if self.identifier:
++                args += " identifier='%s'" % self.identifier
+         return "child(%s%s)" % (args, makeScriptRecursiveArgument(isRecursive, True))
+ 
+     def makeScriptVariableName(self):
+@@ -230,6 +239,8 @@ class GenericPredicate(Predicate):
+                 return makeCamel(self.roleName) + "Node"
+             if self.description:
+                 return makeCamel(self.description) + "Node"
++            if self.identifier:
++                return makeCamel(self.identifier) + "Node"
+ 
+ 
+ class IsNamed(Predicate):
+--- a/dogtail/tree.py
++++ b/dogtail/tree.py
+@@ -997,7 +997,7 @@ class Node(object):
+         return None
+ 
+     # Various wrapper/helper search methods:
+-    def child(self, name='', roleName='', description='', label='', recursive=True, retry=True, debugName=None, showingOnly=None):
++    def child(self, name='', roleName='', description='', label='', identifier='', recursive=True, retry=True, debugName=None, showingOnly=None):
+         """
+         Finds a child satisying the given criteria.
+ 
+@@ -1006,9 +1006,9 @@ class Node(object):
+         also logs the search.
+         """
+         return self.findChild(predicate.GenericPredicate(name=name, roleName=roleName, description=description,
+-                              label=label), recursive=recursive, retry=retry, debugName=debugName, showingOnly=showingOnly)
++                              label=label, identifier=identifier), recursive=recursive, retry=retry, debugName=debugName, showingOnly=showingOnly)
+ 
+-    def isChild(self, name='', roleName='', description='', label='', recursive=True, retry=False, debugName=None, showingOnly=None):
++    def isChild(self, name='', roleName='', description='', label='', identifier='', recursive=True, retry=False, debugName=None, showingOnly=None):
+         """
+         Determines whether a child satisying the given criteria exists.
+ 
+@@ -1022,7 +1022,7 @@ class Node(object):
+         try:
+             self.findChild(
+                 predicate.GenericPredicate(
+-                    name=name, roleName=roleName, description=description, label=label),
++                    name=name, roleName=roleName, description=description, label=label, identifier=identifier),
+                 recursive=recursive, retry=retry, debugName=debugName, showingOnly=showingOnly)
+         except SearchError:
+             found = False
